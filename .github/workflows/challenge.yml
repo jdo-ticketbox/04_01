@@ -1,0 +1,39 @@
+name: Challenge
+
+on: [push]
+
+jobs:
+  run_script
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python environment
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Run Python script
+      run: |
+        python hello.py > hello.txt
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: script-output
+        path: hello.txt
+
+  use-artifact:
+    needs: run_script
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: script-output
+          path: ./artifacts
+
+      - name: Show file
+        run: cat ./artifacts/hello.txt
