@@ -3,7 +3,7 @@ name: Challenge
 on: [push]
 
 jobs:
-  run_script
+  run_script:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
